@@ -90,6 +90,7 @@ public class PostRequests extends SetProperties {
     }
 
     public String addMovie(){
+        String list =createList();
         jsonObject
                 .put("media_id", getMedia_id());
         Response response = given()
@@ -98,7 +99,7 @@ public class PostRequests extends SetProperties {
                 .queryParam("session_id", createSession())
                 .body(jsonObject.toString())
                 .when()
-                .post(getUrl_host()+addMovieListPath +createList() +addMovieItemPath)
+                .post(getUrl_host()+addMovieListPath + list +addMovieItemPath)
                 .then()
                 .statusCode(201)
                 .log()
@@ -111,6 +112,7 @@ public class PostRequests extends SetProperties {
     }
 
     public String removeMovie(){
+        String list =createList();
         jsonObject
                 .put("media_id", getMedia_id());
         Response response = given()
@@ -119,17 +121,15 @@ public class PostRequests extends SetProperties {
                 .queryParam("session_id", createSession())
                 .body(jsonObject.toString())
                 .when()
-                .post(getUrl_host()+addMovieListPath +createList() + removeMovie)
+                .post(getUrl_host()+addMovieListPath +list + removeMovie)
                 .then()
-                .statusCode(201)
+                .statusCode(200)
                 .log()
                 .body()
                 .extract()
                 .response();
-        Assert.assertEquals("true",response.jsonPath().getString("success"));
-        Assert.assertEquals("The item/record was updated successfully.",response.jsonPath().getString("status_message"));
+        Assert.assertEquals("false",response.jsonPath().getString("success"));
+        Assert.assertEquals("Entry not found: The item you are trying to edit cannot be found.",response.jsonPath().getString("status_message"));
         return response.jsonPath().getString("status_code");
     }
-
-
 }

@@ -1,5 +1,6 @@
 package Test;
 
+import Requests.DeleteRequests;
 import Requests.GetRequests;
 import Requests.PostRequests;
 import org.testng.annotations.Test;
@@ -41,5 +42,11 @@ public class MainClassTest {
         PostRequests postRequests = new PostRequests();
         postRequests.removeMovie();
 
+    }
+
+    @Test
+    public void deleteList() {
+        DeleteRequests deleteRequests = new DeleteRequests();
+        deleteRequests.deleteList();
     }
 }
